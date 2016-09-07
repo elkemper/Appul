@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Interactions;
 
 namespace ate
 {
@@ -57,5 +58,11 @@ namespace ate
             return driver;
         }
 
+
+        public static void FocusElement(IWebDriver driver, IWebElement element)
+        {
+            Actions action = new Actions(driver);
+            action.MoveToElement(element).Perform();
+        }
     }
 }
