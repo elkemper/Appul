@@ -22,7 +22,7 @@ namespace ate
         {
             using (IWebDriver driver = Driver.GetDriver(browser))
             {
-
+                driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(20));
                 driver.Navigate().GoToUrl("https://appulatebeta.com/signin");
                 IWebElement useremail = driver.FindElement(By.Id("email"));
                 IWebElement userpassword = driver.FindElement(By.Id("password"));
@@ -38,11 +38,17 @@ namespace ate
                 userpassword.Clear();
                 userpassword.SendKeys(_userpass);
                 submitBttn.Click();
+                
+                //chrome don'wanna wait for onload w\out that
+                halt.Until(ExpectedConditions.ElementIsVisible(By.ClassName("logout-icon")));
 
-                string expectedUrl = "https://appulatebeta.com/icc/insuredclientpolicies.aspx";
-                Assert.IsTrue(driver.Url == expectedUrl, driver.Url);
+                const string expectUrl = "https://appulatebeta.com/icc/insuredclientpolicies.aspx";
+                Assert.AreEqual(expectUrl, driver.Url);
+    
                 driver.Dispose();
             }
         }
+
+     
     }
 }
